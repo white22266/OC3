@@ -1,0 +1,29 @@
+{
+  "name": "oc3",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n UI,GATEWAY \"npm run dev -w @oc3/control-center\" \"npm run dev -w @oc3/gateway\"",
+    "test": "npm run test -w @oc3/shared && npm run test -w @oc3/gateway && npm run test -w @oc3/control-center",
+    "typecheck": "npm run typecheck -w @oc3/shared && npm run typecheck -w @oc3/gateway && npm run typecheck -w @oc3/control-center",
+    "lint": "npm run lint -w @oc3/shared && npm run lint -w @oc3/gateway && npm run lint -w @oc3/control-center",
+    "build": "npm run build -w @oc3/shared && npm run build -w @oc3/gateway && npm run build -w @oc3/control-center"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^8.57.1",
+    "typescript": "^5.8.3"
+  }
+}
