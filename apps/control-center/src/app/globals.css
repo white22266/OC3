@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { margin: 0; min-height: 100%; background: #040b17; color: #e8f4ff; }
+body { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+* { box-sizing: border-box; }
+.command-center { min-height: 100vh; display: grid; grid-template-columns: 184px 1fr 304px; grid-template-rows: 76px 1fr; grid-template-areas: "top top top" "nav world panel"; background: #071221; }
+.topbar { grid-area: top; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 2px solid #214f7e; }
+.sidebar { grid-area: nav; padding: 16px 8px; border-right: 2px solid #214b73; }
+.world-shell { grid-area: world; padding: 12px; min-width: 0; }
+.agent-panel { grid-area: panel; padding: 14px; border-left: 2px solid #214b73; }
+.world-stage-wrap { min-height: 620px; border: 2px solid #285a85; position: relative; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
