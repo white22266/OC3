@@ -25,7 +25,9 @@ export interface AgentCharacterProfile {
   accessory?: 'earpiece' | 'hair-ribbon' | 'hood' | 'glasses' | 'utility-belt';
 }
 
-export const agentCharacterProfiles: Record<AgentCharacterId, AgentCharacterProfile> = {
+type CharacterProfileMap = Record<AgentCharacterId, AgentCharacterProfile> & Partial<Record<string, AgentCharacterProfile>>;
+
+export const agentCharacterProfiles: CharacterProfileMap = {
   yoda: {
     hairStyle: 'layered-messy', outfit: 'lead-jacket', skin: 0xf2c3a3,
     hair: 0x1d2434, hairShadow: 0x111725, hairHighlight: 0x39435b,
@@ -64,6 +66,5 @@ export const agentCharacterProfiles: Record<AgentCharacterId, AgentCharacterProf
 };
 
 export function getAgentCharacterProfile(agentId: string): AgentCharacterProfile {
-  if (agentId in agentCharacterProfiles) return agentCharacterProfiles[agentId as AgentCharacterId];
-  return agentCharacterProfiles.yoda;
+  return agentCharacterProfiles[agentId] ?? agentCharacterProfiles.yoda;
 }
