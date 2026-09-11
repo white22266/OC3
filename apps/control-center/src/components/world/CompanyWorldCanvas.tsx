@@ -3,6 +3,7 @@
 import type { Agent } from '@oc3/shared';
 import { useEffect, useRef, useState } from 'react';
 import { buildWorldModel } from './world-model';
+import { loadDataUriImage } from './image-texture-loader';
 import {
   APPROVED_WORLD_ART_SIZE,
   approvedWorldArtDataUri,
@@ -27,11 +28,7 @@ const BASELINE_MARKERS: Record<HotspotId, string> = {
   ops: 'TOOL',
 };
 
-function drawSelection(
-  PIXI: PixiModule,
-  id: HotspotId,
-  selected: boolean,
-) {
+function drawSelection(PIXI: PixiModule, id: HotspotId, selected: boolean) {
   const hotspot = approvedWorldHotspots[id];
   const overlay = new PIXI.Container();
   overlay.position.set(hotspot.x, hotspot.y);
@@ -43,7 +40,13 @@ function drawSelection(
 
   if (selected && id !== 'yoda') {
     const glow = new PIXI.Graphics();
-    glow.roundRect(-hotspot.width / 2 + 6, -hotspot.height / 2 + 6, hotspot.width - 12, hotspot.height - 12, 13)
+    glow.roundRect(
+      -hotspot.width / 2 + 6,
+      -hotspot.height / 2 + 6,
+      hotspot.width - 12,
+      hotspot.height - 12,
+      13,
+    )
       .fill({ color: 0x44ffd4, alpha: 0.035 })
       .stroke({ color: 0x52f2d0, width: 3, alpha: 0.82 });
     glow.name = 'selection-glow';
@@ -80,8 +83,13 @@ function addInteractiveAgents(
 
     const hover = new PIXI.Graphics();
     const hotspot = approvedWorldHotspots[id];
-    hover.roundRect(-hotspot.width / 2 + 8, -hotspot.height / 2 + 8, hotspot.width - 16, hotspot.height - 16, 12)
-      .stroke({ color: 0x6fe8ff, width: 2, alpha: 0.45 });
+    hover.roundRect(
+      -hotspot.width / 2 + 8,
+      -hotspot.height / 2 + 8,
+      hotspot.width - 16,
+      hotspot.height - 16,
+      12,
+    ).stroke({ color: 0x6fe8ff, width: 2, alpha: 0.45 });
     hover.alpha = 0;
     overlay.addChild(hover);
     overlay.on('pointerover', () => { hover.alpha = 1; });
@@ -142,11 +150,16 @@ export function CompanyWorldCanvas({ agents, selectedAgentId, onSelectAgent }: C
           return;
         }
 
-        const texture = await PIXI.Assets.load(approvedWorldArtDataUri);
+        // Do not send the very large data: URI through PixiJS Assets.load().
+        // Chrome on the OC3 Mac successfully supports WebP, but Pixi's loader
+        // was rejecting this inline source before the browser decoder got it.
+        const image = await loadDataUriImage(approvedWorldArtDataUri);
         if (disposed) {
           app.destroy(true);
           return;
         }
+
+        const texture = PIXI.Texture.from(image);
         texture.source.scaleMode = 'nearest';
 
         const art = new PIXI.Sprite(texture);
