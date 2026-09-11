@@ -1,4 +1,4 @@
-import { agentCharacterProfiles } from '../world/character-profiles';
+import { getAgentCharacterProfile } from '../world/character-profiles';
 
 interface AgentPortraitProps { agentId: string; }
 
@@ -19,7 +19,7 @@ function hairPath(style: string) {
 }
 
 export function AgentPortrait({ agentId }: AgentPortraitProps) {
-  const profile = agentCharacterProfiles[agentId] ?? agentCharacterProfiles.yoda;
+  const profile = getAgentCharacterProfile(agentId);
   return <svg
     className="agent-portrait-svg"
     data-testid="agent-portrait"
