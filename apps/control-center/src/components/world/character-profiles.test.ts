@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { agentCharacterProfiles } from './character-profiles';
+import { agentCharacterProfiles, type AgentCharacterId } from './character-profiles';
 
 describe('agentCharacterProfiles', () => {
   it('gives every seeded OC3 agent a distinct visual identity', () => {
-    const ids = ['yoda', 'bb8', 'aria', 'forge', 'research', 'ops'];
+    const ids: AgentCharacterId[] = ['yoda', 'bb8', 'aria', 'forge', 'research', 'ops'];
     const profiles = ids.map((id) => agentCharacterProfiles[id]);
 
     expect(profiles.every(Boolean)).toBe(true);
