@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { APPROVED_WORLD_ART_SIZE, approvedWorldArtDataUri, approvedWorldHotspots } from './index';
+import { approvedWorldStaticAssetPath } from './static-asset';
+import { APPROVED_WORLD_ART_SIZE, approvedWorldHotspots } from './index';
 
 describe('approved company world art', () => {
-  it('uses the locked visual reference as the world layer', () => {
+  it('uses the locked visual reference as a real public asset', () => {
     expect(APPROVED_WORLD_ART_SIZE).toEqual({ width: 1191, height: 768 });
-    expect(approvedWorldArtDataUri.startsWith('data:image/webp;base64,UklGR')).toBe(true);
-    expect(approvedWorldArtDataUri.length).toBeGreaterThan(90000);
+    expect(approvedWorldStaticAssetPath).toBe('/world/company-world.webp');
   });
 
   it('keeps every seeded agent interactive over the approved art', () => {
