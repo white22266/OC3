@@ -3,12 +3,8 @@
 import type { Agent } from '@oc3/shared';
 import { useEffect, useRef, useState } from 'react';
 import { buildWorldModel } from './world-model';
-import { loadDataUriImage } from './image-texture-loader';
-import {
-  APPROVED_WORLD_ART_SIZE,
-  approvedWorldArtDataUri,
-  approvedWorldHotspots,
-} from './reference-art';
+import { APPROVED_WORLD_ART_SIZE, approvedWorldHotspots } from './reference-art';
+import { approvedWorldStaticAssetPath } from './reference-art/static-asset';
 
 interface CompanyWorldCanvasProps {
   agents: Agent[];
@@ -150,16 +146,14 @@ export function CompanyWorldCanvas({ agents, selectedAgentId, onSelectAgent }: C
           return;
         }
 
-        // Do not send the very large data: URI through PixiJS Assets.load().
-        // Chrome on the OC3 Mac successfully supports WebP, but Pixi's loader
-        // was rejecting this inline source before the browser decoder got it.
-        const image = await loadDataUriImage(approvedWorldArtDataUri);
+        // Load the approved Company World as a real static asset from Next's
+        // public directory. This avoids giant inline data URIs and lets the
+        // browser/Pixi asset pipeline validate and cache the WebP normally.
+        const texture = await PIXI.Assets.load(approvedWorldStaticAssetPath);
         if (disposed) {
           app.destroy(true);
           return;
         }
-
-        const texture = PIXI.Texture.from(image);
         texture.source.scaleMode = 'nearest';
 
         const art = new PIXI.Sprite(texture);
