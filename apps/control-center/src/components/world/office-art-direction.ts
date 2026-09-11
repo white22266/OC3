@@ -1,9 +1,33 @@
-export const officeArtDirection = {
-  rooms: ['meeting-room', 'lobby', 'ai-lab', 'lounge', 'servers'] as const,
+interface OfficeArtDirection {
+  rooms: readonly ['meeting-room', 'lobby', 'ai-lab', 'lounge', 'servers'];
+  wallDepth: number;
+  warmLightCount: number;
+  plantCount: number;
+  decorDensity: 'high';
+  palette: {
+    floorLight: number;
+    floorMid: number;
+    floorDark: number;
+    wallOuter: number;
+    wallMid: number;
+    wallInner: number;
+    roomNavy: number;
+    roomBlue: number;
+    wood: number;
+    woodLight: number;
+    cyan: number;
+    green: number;
+    warm: number;
+    rug: number;
+  };
+}
+
+export const officeArtDirection: OfficeArtDirection = {
+  rooms: ['meeting-room', 'lobby', 'ai-lab', 'lounge', 'servers'],
   wallDepth: 4,
   warmLightCount: 14,
   plantCount: 18,
-  decorDensity: 'high' as const,
+  decorDensity: 'high',
   palette: {
     floorLight: 0xd6cbb3,
     floorMid: 0xc8bca3,
@@ -20,4 +44,4 @@ export const officeArtDirection = {
     warm: 0xffc96b,
     rug: 0x2b4f83,
   },
-} as const;
+};
