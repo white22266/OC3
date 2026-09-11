@@ -25,6 +25,9 @@ export function AgentPortrait({ agentId }: AgentPortraitProps) {
     data-testid="agent-portrait"
     data-hair-style={profile.hairStyle}
     viewBox="0 0 80 80"
+    width="80"
+    height="80"
+    style={{ imageRendering: 'pixelated', display: 'block', borderRadius: 4 }}
     role="img"
     aria-label={`${agentId} portrait`}
   >
