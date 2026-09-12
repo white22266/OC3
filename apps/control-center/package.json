@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "world-art": "node scripts/build-world-art.mjs",
+    "predev": "npm run world-art",
     "dev": "next dev -p 3000",
+    "pretest": "npm run world-art",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
+    "prebuild": "npm run world-art",
     "build": "next build"
   },
   "dependencies": {
